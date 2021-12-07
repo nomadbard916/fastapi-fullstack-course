@@ -30,3 +30,6 @@ jinja2
 
 #for static files
 aiofiles
+
+black
+rope
