@@ -4,9 +4,7 @@ from sqlalchemy.orm import Session
 from db.session import get_db
 from db.models.jobs import Job
 from schemas.jobs import JobCreate, ShowJob
-from db.repository.jobs import (
-    create_new_job,
-)
+from db.repository.jobs import create_new_job, retreive_job
 
 # from apis.version1.route_login import get_current_user_from_token
 from db.models.users import User
@@ -25,16 +23,16 @@ def create_job(
     return job
 
 
-# @router.get("/get/{id}", response_model=ShowJob)
-# def retreive_job_by_id(id: int, db: Session = Depends(get_db)):
-#     job = retreive_job(id=id, db=db)
-#     print(job)
-#     if not job:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail=f"Job with id {id} does not exist",
-#         )
-#     return job
+@router.get("/get/{id}", response_model=ShowJob)
+def retreive_job_by_id(id: int, db: Session = Depends(get_db)):
+    job = retreive_job(id=id, db=db)
+    print(job)
+    if not job:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Job with id {id} does not exist",
+        )
+    return job
 
 
 # @router.get("/all", response_model=List[ShowJob])
