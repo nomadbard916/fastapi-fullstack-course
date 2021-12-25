@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from db.session import get_db
 from db.models.jobs import Job
 from schemas.jobs import JobCreate, ShowJob
-from db.repository.jobs import create_new_job, retreive_job, list_jobs
+from db.repository.jobs import create_new_job, retreive_job, list_jobs, update_job_by_id
 
 # from apis.version1.route_login import get_current_user_from_token
 from db.models.users import User
@@ -41,28 +41,30 @@ def retreive_all_jobs(db: Session = Depends(get_db)):
     return jobs
 
 
-# @router.put("/update/{id}")
-# def update_job(
-#     id: int,
-#     job: JobCreate,
-#     db: Session = Depends(get_db),
-#     current_user: User = Depends(get_current_user_from_token),
-# ):
-#     owner_id = current_user.id
-#     job_retrieved = retreive_job(id=id, db=db)
-#     if not job_retrieved:
-#         raise HTTPException(
-#             status_code=status.HTTP_404_NOT_FOUND,
-#             detail=f"Job with id {id} does not exist",
-#         )
-#     if job_retrieved.owner_id == current_user.id or current_user.is_superuser:
-#         message = update_job_by_id(id=id, job=job, db=db, owner_id=owner_id)
-#     else:
-#         raise HTTPException(
-#             status_code=status.HTTP_401_UNAUTHORIZED,
-#             detail=f"You are not authorized to update.",
-#         )
-#     return {"detail": "Successfully updated data."}
+@router.put("/update/{id}")
+def update_job(
+    id: int,
+    job: JobCreate,
+    db: Session = Depends(get_db),
+    # current_user: User = Depends(get_current_user_from_token),
+):
+    # owner_id = current_user.id
+    owner_id = 1
+    message = update_job_by_id(id=id, job=job, db=db, owner_id=owner_id)
+    # job_retrieved = retreive_job(id=id, db=db)
+    if not message:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Job with id {id} does not exist",
+        )
+    # if job_retrieved.owner_id == current_user.id or current_user.is_superuser:
+    #     message = update_job_by_id(id=id, job=job, db=db, owner_id=owner_id)
+    # else:
+    #     raise HTTPException(
+    #         status_code=status.HTTP_401_UNAUTHORIZED,
+    #         detail=f"You are not authorized to update.",
+    # )
+    return {"detail": "Successfully updated data."}
 
 
 # @router.delete("/delete/{id}")
