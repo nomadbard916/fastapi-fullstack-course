@@ -1,6 +1,6 @@
 from fastapi.security import OAuth2PasswordRequestForm
 
-from apis.utils import OAuth2PasswordBearerWithCookie
+from utils import OAuth2PasswordBearerWithCookie
 from fastapi import Depends, HTTPException, status
 from fastapi import APIRouter
 from sqlalchemy.orm import Session
